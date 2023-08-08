@@ -107,7 +107,7 @@ Este é um repositório que contém uma API REST desenvolvida como parte do desa
 
 USER_STARWARS: o valor deve ser o nome de usuário do seu banco de dados PostgreSQL.
 PASSWORD_STARWARS: o valor deve ser a senha do seu usuário do banco de dados.
-DATABASE_STARWARS: ovalor dessa variável de ambiente é o nome do esquema/banco de dados que você deseja utilizar.
+DATABASE_STARWARS: o valor dessa variável de ambiente é o nome do esquema/banco de dados que você deseja utilizar.
 Antes de executar o projeto, crie o banco de dados correspondente ao esquema/banco de dados definido na variável de ambiente DATABASE_STARWARS.
 
 5-Após criar o banco de dados, execute o projeto.
