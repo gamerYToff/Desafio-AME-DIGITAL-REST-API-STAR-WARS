@@ -54,7 +54,7 @@ Este é um repositório que contém uma API REST desenvolvida como parte do desa
 	"QuantidadeDeAparicoesEmFilmes": 4
   }
 
-**3- Detalhar as informações de um planeta com base no nome**
+**3- Detalhar as informações de um planeta com base no id**
 
   Enviando uma requisição do tipo get para http://localhost:8080/planetas/id/idDoPlanete a api irá devolver um json com detalhes do planeta, exemplo:
 
