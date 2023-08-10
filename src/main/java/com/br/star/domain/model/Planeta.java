@@ -1,6 +1,6 @@
 package com.br.star.domain.model;
 
-import com.br.star.Utils;
+import com.br.Utils;
 import com.br.star.domain.planeta.DadosAtualizacaoPlaneta;
 import com.br.star.domain.planeta.DadosCadastroPlaneta;
 import jakarta.persistence.*;
