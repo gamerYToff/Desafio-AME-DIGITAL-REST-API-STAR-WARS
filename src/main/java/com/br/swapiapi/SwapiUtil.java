@@ -1,43 +1,29 @@
 package com.br.swapiapi;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
+import java.net.URI;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SwapiUtil {
 
     private static final String url = "https://swapi.dev/api/planets/?search=";
 
-    public static Integer getPlanetByName(String nome) throws IOException {
-        URL urlPlanets = new URL(url + nome);
-        HttpURLConnection con = (HttpURLConnection) urlPlanets.openConnection();
-        con.setRequestMethod("GET");
-        int contagemDeFilmes = 0;
-        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String linha;
-            StringBuilder resposta = new StringBuilder();
-            while ((linha = reader.readLine()) != null) {
-                resposta.append(linha);
-            }
-            reader.close();
-            Gson gson = new Gson();
-            TypeToken<Map<String, Object>> tipoDeToken = new TypeToken<>() {};
-            Map<String, Object> responseMap = gson.fromJson(resposta.toString(), tipoDeToken.getType());
-            List<Map<String, Object>> results = (List<Map<String, Object>>) responseMap.get("results");
-            if (!results.isEmpty()) {
-                Map<String, Object> result = results.get(0);
-                List<String> films = (List<String>) result.get("films");
-                contagemDeFilmes = films.size();
-            }
+    public static Integer getPlanetByName(String nome) {
+        URI urlPlanets = URI.create(url + nome);
+        AtomicReference<Integer> films = new AtomicReference<>();
+        WebClient.RequestHeadersSpec<?> webFlux = WebClient.create().get().uri(urlPlanets);
+        String response = webFlux.retrieve().bodyToMono(String.class).block();
+        JsonArray results = new Gson().fromJson(response, JsonObject.class).get("results").getAsJsonArray();
+        for (JsonElement element : results) {
+            JsonArray listFilms = element.getAsJsonObject().getAsJsonArray("films");
+            if (listFilms != null)
+                return listFilms.size();
         }
-        return contagemDeFilmes;
+        return 0;
     }
 }
